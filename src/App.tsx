@@ -12,13 +12,15 @@ import ShoppingCart from './components/ShoppingCart';
 
 interface IProps { }
 interface IState {
-  robotGallery: any[]
+  robotGallery: any[];
+  count: number;
 }
 class App extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.state = {
       robotGallery: [],
+      count: 0
     };
   }
 
@@ -35,6 +37,29 @@ class App extends React.Component<IProps, IState> {
           <img src={logo} className={styles.appLogo} alt="logo" />
           <h1>罗伯特机器人炫酷吊炸天online购物平台的名字要长</h1>
         </div>
+        <button onClick={() => {
+          /** 
+           * setState() 是异步更新，同步执行
+           * setState() 本身并非异步，但对 state 的处理机制给人一种异步的假象。state 处理一般发生在生命周期变化的时候
+           */
+          // this.setState({ count: this.state.count + 1 }, () => {
+          //   // 使用回调方法，访问处理后的数据
+          //   console.log('count ', this.state.count)
+          // })
+          // console.log('count ', this.state.count) // 没有同步更新数据，因为 setState 是异步
+
+          this.setState((preState, preProps) => {
+            return { count: preState.count + 1 }
+          }, () => {
+            console.log('count', this.state.count)
+          })
+          this.setState((preState, preProps) => {
+            return { count: preState.count + 1 }
+          }, () => {
+            console.log('count', this.state.count)
+          })
+        }}>Click</button>
+        <span>count: {this.state.count}</span>
         <ShoppingCart />
         <div className={styles.robotList}>
           {this.state.robotGallery.map(r => <Robot id={r.id} email={r.email} name={r.name} />)}
