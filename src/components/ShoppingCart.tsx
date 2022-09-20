@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './ShoppingCart.module.css'
-
+import { FiShoppingCart } from 'react-icons/fi'
 interface IProps {
 
 }
@@ -40,6 +40,25 @@ class ShoppingCart extends React.Component<IProps, IState> {
         this.state = {
             isOpen: false
         };
+        /**
+         * 关于函数中的 this 指向问题，解决方案 1： 使用.bind() 方法，重新赋值
+         */
+        // this.handlerClick = this.handlerClick.bind(this)
+    }
+
+    /**
+     * 关于函数中的 this 指向问题，解决方案 2： 使用箭头函数，这样 this 就会指向外部的this，而不会指向当前函数 handlerClick
+     */
+    handlerClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        /**
+         * e.target 描述的是事件发生的元素, 即 点击的那个元素
+         * e.currentTarget 描述的是事件处理绑定的元素，即 绑定该函数的元素
+         */
+        console.log('e.target', e.target)
+        console.log('e.currentTarget', e.currentTarget)
+        if ((e.target as HTMLElement).nodeName === "SPAN") {
+            this.setState({ isOpen: !this.state.isOpen });
+        }
     }
 
     render() {
@@ -47,11 +66,10 @@ class ShoppingCart extends React.Component<IProps, IState> {
             <div className={styles.cartContainer}>
                 <button
                     className={styles.button}
-                    onClick={() => {
-                        this.setState({ isOpen: !this.state.isOpen })
-                    }}
+                    onClick={this.handlerClick}
                 >
-                    购物车 2 （件）
+                    <FiShoppingCart />
+                    <span>购物车 2 （件）</span>
                 </button>
                 <div
                     className={styles.cartDropDown}
