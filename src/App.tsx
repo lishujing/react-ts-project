@@ -6,6 +6,8 @@ import logo from './assets/images/logo.svg'
 import styles from './App.module.css' //  <div className={styles.app}></div>
 import robots from './mock/robots.json'
 import Robot from './components/Robot'
+import ShoppingCart from './components/ShoppingCart';
+
 function App() {
   return (
     <div className={styles.app}>
@@ -13,6 +15,7 @@ function App() {
         <img src={logo} className={styles.appLogo} alt="logo" />
         <h1>罗伯特机器人炫酷吊炸天online购物平台的名字要长</h1>
       </div>
+      <ShoppingCart />
       <div className={styles.robotList}>
         {robots.map(r => <Robot id={r.id} email={r.email} name={r.name} />)}
       </div>
